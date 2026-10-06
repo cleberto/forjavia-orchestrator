@@ -158,7 +158,7 @@ Este início rápido serve para conhecer o projeto e validar o baseline local. E
 
 2. **Leia a arquitetura**
 
-   Comece por [docs/architecture-v1.3.md](docs/architecture-v1.3.md). Depois leia o [roadmap](docs/05-roadmap.md) e a descrição do [bridge governado](docs/13-governed-bridge.md).
+   Comece por [docs/architecture-v1.3.md](docs/architecture-v1.3.md), que é a norma do projeto. Este README e os demais documentos públicos são projeções dessa arquitetura: não a substituem nem prevalecem sobre ela. Depois leia o [roadmap](docs/05-roadmap.md) e a descrição do [bridge governado](docs/13-governed-bridge.md).
 
 3. **Valide o baseline**
 

@@ -33,6 +33,10 @@ jobs:
         working-directory: .
         run: node tools/bridge/bridge.test.mjs && node tools/third-party-inventory.mjs --check
 
+      - name: Verify public docs invariants
+        working-directory: .
+        run: node tools/public-docs-check.mjs
+
       - name: Run method tests
         run: node --experimental-strip-types scripts/method.test.ts
 
