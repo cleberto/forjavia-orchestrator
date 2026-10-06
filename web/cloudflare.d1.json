@@ -1,0 +1,6 @@
+{
+  "binding": "DB",
+  "database_name": "forjavia-survey",
+  "database_id": "d94feed9-c44d-4c41-bf16-7811b684ebfd",
+  "migrations_dir": "../../drizzle"
+}

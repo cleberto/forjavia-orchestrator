@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "forjavia-evidence-draft-v0",
+  "example": true,
+  "changeId": "CHANGE-000",
+  "requirementId": "REQ-000",
+  "scenarioId": "SCN-000",
+  "assertionId": "AST-000",
+  "testId": null,
+  "revision": null,
+  "commandArgv": [],
+  "exitCode": null,
+  "result": "NOT_RUN",
+  "outputs": [],
+  "verifierAuthorityStatus": "NOT_ENFORCED"
+}

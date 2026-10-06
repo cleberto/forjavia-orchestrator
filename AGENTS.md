@@ -1,0 +1,14 @@
+# Orientações do projeto Forjavia
+- Trabalhe em português do Brasil. Identificadores de código podem estar em inglês.
+- Leia README.md, docs/03-arquitetura.md e docs/06-decisoes.md antes de implementar.
+- Este projeto mantém o Core genérico. Fontes específicas de projeto não entram no Core sem proveniência, direito de uso e revisão próprios.
+- Separe núcleo, políticas, domínio, adaptadores, verificadores e evidência.
+- Marque afirmações como fato, proposta ou decisão; não transforme proposta em decisão do proprietário.
+- Não descreva configuração documental como mecanismo implementado ou enforcement.
+- Reutilize conceitos e contratos com proveniência; extração de código exige inspeção de dependências, testes e compatibilidade.
+- Preserve arquivos existentes. Inicialização e instalação devem recusar colisões por padrão.
+- Parecer fica obsoleto quando seus inputs mudam; não aprove trabalho usando evidência de outra revisão.
+- Revisão independente só pode ser declarada quando houve um revisor distinto do autor.
+- Autorização vem da solicitação do usuário e do escopo acordado. PASS não amplia permissões.
+- Não exponha segredos em artefatos. Não copie .env, credenciais, assets de jogo ou logs indiscriminadamente.
+- Valide mudanças com testes proporcionais ao comportamento alterado. Registre o que não foi executado.

@@ -1,0 +1,1 @@
+ALTER TABLE `survey_responses` ADD `other_details` text DEFAULT '{}' NOT NULL;

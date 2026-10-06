@@ -1,0 +1,32 @@
+import { sql } from "drizzle-orm";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+
+export const surveyResponses = sqliteTable("survey_responses", {
+  id: text("id").primaryKey(),
+  createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+  profile: text("profile").notNull(),
+  aiUsage: text("ai_usage").notNull(),
+  aiTools: text("ai_tools").notNull().default(""),
+  decisionDifficulty: text("decision_difficulty").notNull(),
+  decisionExample: text("decision_example").notNull().default(""),
+  problems: text("problems", { mode: "json" }).$type<string[]>().notNull(),
+  decisionValue: text("decision_value").notNull(),
+  decisionWhy: text("decision_why").notNull().default(""),
+  benefits: text("benefits", { mode: "json" }).$type<string[]>().notNull(),
+  preferredUse: text("preferred_use").notNull(),
+  freeIntent: text("free_intent").notNull(),
+  freeRequirement: text("free_requirement").notNull().default(""),
+  proDrivers: text("pro_drivers", { mode: "json" }).$type<string[]>().notNull(),
+  paymentPreference: text("payment_preference").notNull(),
+  monthlyPrice: text("monthly_price").notNull(),
+  primaryConcern: text("primary_concern").notNull(),
+  trustFactors: text("trust_factors", { mode: "json" }).$type<string[]>().notNull(),
+  otherDetails: text("other_details", { mode: "json" }).$type<Record<string, string>>().notNull().default({}),
+  usefulness: text("usefulness").notNull(),
+  competitor: text("competitor").notNull().default(""),
+  recommendation: text("recommendation").notNull().default(""),
+  betaInterest: text("beta_interest").notNull(),
+  contact: text("contact").notNull().default(""),
+  locale: text("locale").notNull().default("pt-BR"),
+  consent: integer("consent", { mode: "boolean" }).notNull(),
+});

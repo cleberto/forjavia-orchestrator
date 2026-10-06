@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "forjavia-workflow-draft-v0",
+  "status": "PROPOSED_NOT_IMPLEMENTED",
+  "id": "governed-change",
+  "stages": [
+    "recon",
+    "risk",
+    "domain-review",
+    "spec",
+    "decision-if-required",
+    "architecture",
+    "plan-review",
+    "execute",
+    "verify",
+    "delivery-review",
+    "human-acceptance"
+  ],
+  "reviewVerdicts": [
+    "PASS",
+    "WARN",
+    "BLOCK"
+  ],
+  "reviewStates": [
+    "PENDING",
+    "CURRENT",
+    "STALE"
+  ],
+  "maxPlanReviewRounds": 3,
+  "blockRouting": {
+    "evidence": "recon",
+    "domain": "recon",
+    "plan": "architecture",
+    "implementation": "execute",
+    "authority": "human",
+    "unclassified": "classification-required"
+  },
+  "invalidation": "input-digest-change",
+  "completion": "explicit-acceptance"
+}

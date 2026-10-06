@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "forjavia-risk-policy-draft-v0",
+  "status": "PROPOSED_NOT_IMPLEMENTED",
+  "id": "mu-initial-policy",
+  "unknownFactorBehavior": "NEEDS_CLASSIFICATION",
+  "emptyFactorsBehavior": "NEEDS_CLASSIFICATION",
+  "aggregation": "maximum-factor-level",
+  "factors": {
+    "presentation": "LOW",
+    "ui": "MEDIUM",
+    "map": "MEDIUM",
+    "assets": "MEDIUM",
+    "domain_logic": "HIGH",
+    "protocol": "HIGH",
+    "persistence": "HIGH",
+    "security": "HIGH"
+  },
+  "minimumReviews": [
+    "domain",
+    "plan",
+    "delivery"
+  ],
+  "additionalReviews": {
+    "protocol": [
+      "protocol-compatibility"
+    ],
+    "persistence": [
+      "data-integrity"
+    ],
+    "security": [
+      "security"
+    ],
+    "ui": [
+      "muui-architecture",
+      "visual"
+    ]
+  },
+  "classificationGrantsPermission": false
+}

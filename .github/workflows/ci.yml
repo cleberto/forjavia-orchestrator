@@ -1,0 +1,52 @@
+name: Forjavia local validation
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  web-checks:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify bridge and third-party inventory
+        working-directory: .
+        run: node tools/bridge/bridge.test.mjs && node tools/third-party-inventory.mjs --check
+
+      - name: Run method tests
+        run: node --experimental-strip-types scripts/method.test.ts
+
+      - name: Test hosting configuration bootstrap
+        run: node scripts/prepare-hosting.test.mjs
+
+      - name: Prepare local hosting configuration
+        run: node scripts/prepare-hosting.mjs
+
+      - name: Type check
+        run: node node_modules/typescript/bin/tsc --noEmit --incremental false
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build portable preview
+        run: npm run build
