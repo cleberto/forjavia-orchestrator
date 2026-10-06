@@ -1,0 +1,146 @@
+{
+  "schema": "forjavia.bootstrap-continuity/v1",
+  "precedence": ["architecture", "active_authority", "versioned_state", "handoff"],
+  "precedence_rule": "architecture > active authority > versioned state > handoff",
+  "unresolved_conflict_action": "STOP",
+  "objective": "Set up cloud bootstrap and continuation so a fresh clone recovers objective, authority, execution, retry/failure state and next action without chat.",
+  "repository": {
+    "url": "https://github.com/cleberto/forjavia-orchestrator",
+    "branch": "main",
+    "bootstrap_root_commit": "21bd5f8e54b59b4a19d20860802673e70847c049",
+    "ci_status_at_root": "PASS"
+  },
+  "architecture": {
+    "path": "docs/architecture-v1.3.md",
+    "version": "v1.3",
+    "sha256": "7DA255F4E980E4E1DEE1DC54C384D840BCEFCB4669192028824606A9E82670E1",
+    "hash_normalization": "UTF-8 without BOM (BOM present = mismatch); replace CRLF with LF only; no other transformation",
+    "source_correspondence": "textual match to v1.3 source after CRLF->LF normalization only"
+  },
+  "bootstrap_status": {
+    "M0A": "M0A_PASS",
+    "M0B": "M0B_PASS",
+    "M0C": "M0C_PASS",
+    "M0D": {
+      "stabilization_execution": "M0D-STABILIZATION-EXEC-01",
+      "stabilization_result": "M0D_BLOCK",
+      "supplemental_execution": "M0D-RECOVERY-NARROW-FIX-EXEC-01",
+      "supplemental_result": "PASS",
+      "supplemental_effect": "resolves the single M0D blocker",
+      "composite_status": "M0D_PASS"
+    },
+    "BOOTSTRAP_RUNNER_STABILIZATION_COMPLETE": true
+  },
+  "bridge": {
+    "local_bridge_L1_L5": "PROVEN_LOCAL",
+    "real_governed_wave": "PROVEN_LOCAL",
+    "cloud_transport": "NOT_PROVEN",
+    "rule": "LOCAL_BRIDGE != CLOUD_TRANSPORT"
+  },
+  "public_documentation_reconciliation": {
+    "status": "COMPLETE_IN_LOCAL_CANDIDATE",
+    "cloud_distribution": "ONLY_AFTER_SEPARATE_AUTHORIZED_PUSH"
+  },
+  "waves": {
+    "W1-W7": "NOT_AUTHORIZED"
+  },
+  "superseded": {
+    "SUPERSEDED_UNPUSHED_CLOUD_HANDOFF": true,
+    "commit": "b1b7ce29cc253c0f4de764023627e9d819e21ab1",
+    "publish": false,
+    "ancestor_of_public_history": false,
+    "if_found_in_history": "STOP"
+  },
+  "current_gate": {
+    "id": "CLOUD_BOOTSTRAP_AND_CONTINUATION_SETUP",
+    "status": "AUTHORIZED_NOT_STARTED",
+    "cloud_bootstrap_result": "NOT_PROVEN"
+  },
+  "authority": {
+    "path": "decisions/OD-FORJAVIA-CLOUD-BOOTSTRAP-01.md",
+    "execution_id": "CLOUD-BOOTSTRAP-EXEC-01",
+    "use": "SINGLE_USE",
+    "only_versioned_authority_for_gate": true,
+    "status": "ACTIVE_NOT_CONSUMED",
+    "published_with": "same push as this state and the handoff",
+    "hash_binding": "the decision, published in the same push, binds the final hashes of this state and of the handoff; this state never records authority, handoff or self hashes",
+    "in_scope": [
+      "recover repo and state",
+      "validate environment, tools and providers",
+      "controlled synthetic tests",
+      "validate schema and runner",
+      "update local continuity",
+      "prepare specific next authority/wave"
+    ],
+    "out_of_scope": [
+      "remote writes/push",
+      "release",
+      "branch operations",
+      "history rewrite",
+      "secrets",
+      "private/project/MU content",
+      "framework major",
+      "W1-W7 in bulk",
+      "broad implementation",
+      "budget bypass",
+      "authority escalation"
+    ]
+  },
+  "execution": {
+    "id": "CLOUD-BOOTSTRAP-EXEC-01",
+    "status": "NOT_STARTED",
+    "mode": "SEQUENTIAL",
+    "adjudication_outcomes": ["CONTINUE", "RETRY", "OWNER_REQUIRED", "STOP"]
+  },
+  "budget": {
+    "units": 5,
+    "files": 5,
+    "rule": "first limit reached wins"
+  },
+  "retry_failure": {
+    "policy": {
+      "max_attempts_same_failure": 2,
+      "retry_requires_changed_plan": true,
+      "on_second_same_failure": "STOP_WITH_SCOPED_FAILURE_PACKET"
+    },
+    "attempts_on_current_failure": 0,
+    "last_failure": null,
+    "failure_packet": null
+  },
+  "provider_model": {
+    "rule": "ROLE != PROVIDER",
+    "providers": "CONFIGURABLE_ONE_OR_MANY",
+    "mandatory_provider": null,
+    "method": "PORTABLE",
+    "multi_task_autonomy": "PLANNED_WITHIN_AUTHORITY"
+  },
+  "owner_interaction": {
+    "manual_relay_required_by_user_or_authority_holder": false,
+    "owner_required_only_for": ["genuine decision", "irreversible risk", "security", "privacy", "permission"]
+  },
+  "capabilities": {
+    "context_compiler": "PERMANENT_RISK_PROPORTIONAL",
+    "lesson_distiller": "CONDITIONAL",
+    "parallel_scheduler": "CONDITIONAL_ON_DEPENDENCIES_ISOLATION_BUDGET"
+  },
+  "roadmap_after_cloud": [
+    {"order": 1, "item": "Legacy Reconciliation", "requires": ["gate", "authority"]},
+    {"order": 2, "item": "Spec Kit", "requires": ["gate", "authority"]},
+    {"order": 3, "item": "TLC", "requires": ["gate", "authority"]},
+    {"order": 4, "item": "Understand Anything", "requires": ["gate", "authority"]},
+    {"order": 5, "item": "Integrated Engineering Graph", "requires": ["gate", "authority"]},
+    {"order": 6, "item": "UI", "requires": ["gate", "authority"]},
+    {"order": 7, "item": "Benchmarks", "requires": ["gate", "authority"]},
+    {"order": 8, "item": "Simplify", "requires": ["gate", "authority"]},
+    {"order": 9, "item": "Release", "requires": ["gate", "authority"]}
+  ],
+  "handoff": {
+    "path": "docs/18-cloud-continuation-handoff.md",
+    "role": "procedural guide; lowest precedence"
+  },
+  "next_action": {
+    "if_authority_absent_or_hash_mismatch_or_consumed_or_scope_mismatch": "AUTHORITY_BLOCK/STOP: do not execute; do not request Owner permission already granted by this versioned decision",
+    "if_unresolved_conflict": "STOP",
+    "if_authority_valid": "execute CLOUD-BOOTSTRAP-EXEC-01 step 1: recover repo/state from fresh clone, strictly within authority scope"
+  }
+}

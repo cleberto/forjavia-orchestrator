@@ -13,7 +13,10 @@ const REQUIRED_FILES = [
   '.github/workflows/ci.yml',
   'LICENSE',
   'THIRD_PARTY_NOTICES.md',
+  'decisions/OD-FORJAVIA-CLOUD-BOOTSTRAP-01.md',
+  'docs/18-cloud-continuation-handoff.md',
   'docs/architecture-v1.3.md',
+  'state/bootstrap-continuity.json',
   'tools/bridge/bridge.mjs',
 ];
 
@@ -25,6 +28,10 @@ const FORBIDDEN_PREFIXES = [
   'runtime/',
   'state/',
 ];
+
+// Exact-path exemption from FORBIDDEN_PREFIXES for versioned canonical continuity state.
+// Runtime/session state is not public; siblings stay blocked and content scans still apply.
+const ALLOWED_EXACT_PATHS = new Set(['state/bootstrap-continuity.json']);
 
 const FORBIDDEN_SEGMENTS = new Set(['node_modules', '.openai', '.local', '.git']);
 
@@ -137,7 +144,7 @@ function walk(rootPath, rootReal, relSegments, files, failures) {
 
 function checkPath(rel, failures) {
   const lower = rel.toLowerCase();
-  if (FORBIDDEN_PREFIXES.some((prefix) => lower.startsWith(prefix))) {
+  if (!ALLOWED_EXACT_PATHS.has(lower) && FORBIDDEN_PREFIXES.some((prefix) => lower.startsWith(prefix))) {
     failures.push({ category: 'forbidden_path_prefix', path: rel });
   }
   for (const segment of lower.split('/')) {
