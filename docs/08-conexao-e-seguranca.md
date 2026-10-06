@@ -1,32 +1,48 @@
-# Consumo dos métodos, segurança e custos
-## Proposta de experiência
-O cliente responde no site e conecta seu projeto uma vez. O agente recebe o método, examina o escopo autorizado, devolve dúvidas e evidências, e retoma após respostas.
-Exportação de arquivos na prévia é uma ponte; não é o objetivo final de baixa manualidade.
+# Segurança e permissões
 
-## MCP-first, GitHub e conector local
-MCP é a primeira interface de ferramentas e contexto para agentes compatíveis; não substitui sozinho motor, autorização ou diagnóstico.
-A GitHub App é a primeira fonte do projeto e será instalada separadamente do login, somente nos repositórios escolhidos.
-O servidor MCP entrega contexto, regras, dúvidas e planos e recebe decisões e evidências. Começar com dois clientes reais e um fluxo completo reduz o custo de integração.
-Um conector local permanece opcional para alterações não enviadas, testes locais e projetos fora do GitHub. Ele só entra depois de demanda comprovada.
+> Norma vigente: [arquitetura v1.3](architecture-v1.3.md). Resumo: [03-arquitetura.md](03-arquitetura.md). Bridge local: [13-governed-bridge.md](13-governed-bridge.md).
 
-Referência primária: https://modelcontextprotocol.io/docs/learn/architecture
-A documentação do MCP descreve comunicação entre hosts, clientes e servidores e exposição de ferramentas/contexto. O custo real vem da implementação e operação, não do nome do protocolo.
+Este documento substitui a versão anterior onde ela divergia da arquitetura v1.3. Ele descreve a segurança de um Control Plane que opera sobre o repositório.
 
-## Custo sem promessas
-- IA do usuário executando localmente: consumo e limites dependem da ferramenta e contrato dele; o Forjavia ainda tem custos de produto, suporte e integração.
-- IA hospedada pelo Forjavia: acrescenta tokens, execução, filas, armazenamento e abuso.
-- Conector local opcional: exige distribuição, compatibilidade e manutenção.
-- MCP remoto: acrescenta autenticação, operação, observabilidade e limites.
-- Não presumir que assinatura de chat inclui API ou permite automação irrestrita.
-Medir custo por execução antes de definir plano comercial. Não foram estimados preços nesta entrega.
+## Premissas
 
-## Segurança por fase
-Na demonstração pública: sem conta de cliente, conexão de repositório, execução remota, credenciais ou persistência de projetos. Perfil local limitado a 64 KB, schema estrito e renderização de texto. Conteúdo exportado não concede autorização.
-Antes do SaaS: autenticação, autorização por recurso e tenant no servidor, testes de acesso cruzado, CSRF conforme autenticação escolhida, limites, secrets manager, auditoria e política de retenção.
-Antes de executar: allowlist de caminhos e comandos, isolamento, controle de rede, proteção contra instruções maliciosas em repositórios e revisão dos efeitos de cada ferramenta.
-Métodos distribuídos precisam de origem verificável, versões fixadas e atualização com diff; nenhum pacote recebe execução arbitrária por instalar.
-O questionário não prova segurança. Revisões e verificações independentes continuam necessárias.
+- Não há login, conta, tenant nem serviço hospedado do Forjavia. GitHub App e MCP remoto não são obrigatórios. Se algum deles for adotado, exigirá decisão e requisitos próprios.
+- O transporte do relay via GitHub/cloud **não está comprovado**; o gate de cutover continua aberto.
+- A maior parte do que segue é contrato-alvo (PLANNED). O runner local é experimental e não é produto pronto.
 
-Referências:
-- https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html
-- https://cheatsheetseries.owasp.org/cheatsheets/Multi_Tenant_Security_Cheat_Sheet.html
+## Princípios
+
+### Permission-by-effect
+Permissões são concedidas por efeito, não por ferramenta nem por agente: ler caminho, escrever caminho, executar comando, acessar rede, publicar externamente. Cada Work Item declara os efeitos permitidos, e o Context Compiler entrega ao executor apenas essas permissões.
+
+### Least privilege
+- O padrão é negar.
+- Caminhos e comandos ficam em allowlist; a rede é controlada; a execução é isolada.
+- Escrita concorrente não isolada na mesma árvore é proibida por padrão.
+- Efeitos irreversíveis ou externos (publicar, apagar, enviar) exigem `OWNER_REQUIRED`, salvo autorização durável registrada.
+
+### Fonte não confiável
+Conteúdo de repositório, documentos, fontes legadas, saídas de providers e resultados de executores são dados, não instruções. Instruções embutidas nesses conteúdos não concedem autoridade nem ampliam permissões. Conteúdo exportado ou importado também não concede autorização.
+
+### Authority separada
+Só uma decisão registrada no Structured State, por quem tem autoridade, aprova, fecha ou amplia escopo. Implementação e prova não concedem authority.
+
+### Invalidação de evidência
+Evidências e pareceres, incluindo os de segurança, ficam vinculados a caminho, hash e revisão. Quando um input muda, eles perdem validade e a verificação precisa ser refeita. Veja [verificação e evidência](verification-and-evidence.md).
+
+### Sem segredos
+Segredos não entram no Structured State, no contexto compilado, em prompts, evidências, logs ou projeções. Conteúdo que pareça credencial bloqueia o fluxo em vez de ser propagado.
+
+### Provider adapters
+Spec Kit, TLC e Understand Anything são acessados por adapters versionados com efeitos declarados. Um provider não amplia permissões nem governa o sistema, e seus resultados passam por adjudicação do Control Plane.
+
+### Distribuição de métodos
+Métodos e providers precisam de origem verificável, versão fixada e atualização com diff. Instalar algo não concede execução arbitrária.
+
+## Executores externos
+Executores como Claude Code ou Codex rodam sob as ferramentas, contratos e limites de quem os usa. Não presumir que uma assinatura de chat inclua API ou permita automação irrestrita. Nenhum custo foi estimado aqui.
+
+## Limites desta documentação
+Documentação e questionários não provam segurança. Revisões e verificações independentes continuam necessárias.
+
+Referência: https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html

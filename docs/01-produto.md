@@ -1,24 +1,39 @@
-# Produto e jornadas
-## Direção confirmada
-Serviço web para consumir, configurar e evoluir métodos que a IA do usuário aplica ao projeto. Abrange diferentes cenários de software. MU/Unity são referência de processo interno, não o produto vendido.
+# Produto
 
-## Público
-Quem cria com vibe coding precisa de perguntas simples, decisões compreensíveis e ajuda para não perder o controle do projeto. Desenvolvedores precisam de rastreabilidade, configuração, extensibilidade e integração com ferramentas existentes. Uma experiência guiada com detalhes progressivos atende os dois.
+> Norma vigente: [arquitetura v1.3](architecture-v1.3.md). Este documento resume o produto; em caso de divergência, a arquitetura prevalece.
 
-## Projeto em andamento
-Entrevista → reconhecimento local autorizado → baseline → diagnóstico com fontes → dúvidas agrupadas → roadmap por impacto/dependência → melhorias em etapas → verificação.
-Distinguir fato, hipótese e ausência de evidência. Não concluir que algo está errado só porque não apareceu numa busca.
+## O que é
 
-## Projeto do zero
-Entrevista → definição de público e escopo → opções de produto/experiência/tecnologia → decisões → arquitetura e critérios → roadmap → implementação incremental → validação.
+O Forjavia é um Control Plane aberto e genérico para engenharia de software assistida por agentes de IA. Ele governa como agentes especificam, implementam, verificam e entregam software, mantendo no repositório o estado, a autoridade, o risco e as evidências que ligam esse trabalho.
 
-## Produto consumível
-O método é um pacote versionado: perguntas, regras, critérios, etapas, fontes e verificadores. O projeto mantém seu perfil e registro de decisões. Atualizações mostram diferenças e preservam personalizações.
+O Forjavia não substitui agentes nem ferramentas de especificação e não é vinculado a domínio, linguagem, framework ou fornecedor de IA. A experiência pretendida é uma só: `Forjavia, faça X.`
 
-## Diferencial a validar
-Contexto e decisões acompanham a execução, dúvidas voltam ao usuário e a entrega precisa de evidência. O produto reduz o trabalho de preparar contexto repetidamente.
-Isto é uma hipótese de diferenciação, não uma alegação comprovada de superioridade sobre concorrentes.
+## Controle de autoridade
 
-## Prévia atual
-Questionário e roteiro determinístico; configuração importável/exportável; documento para a IA.
-Sem diagnóstico de código ou execução. Sem promessa de aprendizado automático ou análise semântica por IA.
+- Implementação não é prova; prova não é autoridade para fechar.
+- Quem implementa não é quem verifica.
+- O Owner decide; agentes executam dentro do escopo autorizado, com permissões explícitas por efeito.
+- Regras bloqueantes viram enforcement; julgamento fica com o LLM; procedimento vira script.
+- O Owner não é transporte manual entre agentes. A intervenção humana ocorre em `OWNER_REQUIRED`, `STOP` material ou decisão de autoridade.
+
+## Projeto novo
+
+A partir do pedido do Owner, o fluxo planejado conduz especificação, esclarecimento de dúvidas, plano, tarefas, implementação e verificação independente com evidência. O Structured State do repositório é a fonte da verdade desde o início.
+
+## Projeto existente
+
+O Existing Project Bootstrap / Legacy Reconciliation (planejado) descobre código, documentação, backlog, decisões, testes, evidências e fontes externas temporárias. O estado declarado é confrontado com código, testes e dependências atuais; work items podem ser mantidos, reescritos, divididos, mesclados, bloqueados, descartados ou replanejados.
+
+- Nenhuma fonte legada vira autoridade automaticamente.
+- Fato, hipótese e ausência de evidência são registrados separadamente; não encontrar algo não prova que esteja errado.
+- Após a reconciliação, o Structured State assume a operação e a dependência da fonte legada termina.
+
+## Estado atual e alvo
+
+**Atual:** baseline público inicial, arquitetura v1.3 documentada e bridge governado comprovado apenas em execução local. O transporte via GitHub/cloud é experimental. O Forjavia ainda não é instalável de ponta a ponta.
+
+**Alvo:** Control Plane completo com Context Compiler, reconciliação de legado, integração com providers, Integrated Engineering Graph e uma única Forjavia UI. Tudo isso está planejado e ainda não existe.
+
+## O que o Forjavia não é
+
+Não é serviço hospedado nem SaaS. Não há versão paga, plano comercial ou open-core. O projeto é aberto; contribuições são voluntárias e apoio ou doações são opcionais.
