@@ -1,38 +1,45 @@
-"use client";
-/* Native navigation avoids the vinext RSC prefetch failure on Cloudflare. */
-/* eslint-disable @next/next/no-html-link-for-pages */
+import Link from "next/link";
 
-import { ArrowRight } from "lucide-react";
-import { LanguageSwitcher, useI18n } from "@/components/i18n";
+const REPO_URL = "https://github.com/cleberto/forjavia-orchestrator";
 
-type Section = "produto" | "builder" | "roadmap" | "planos" | "exemplo" | "entrar" | "pesquisa";
+// Valores legados aceitos até que as rotas antigas sejam removidas na próxima wave.
+export type SiteHeaderActive =
+  | "home"
+  | "roadmap"
+  | "builder"
+  | "entrar"
+  | "exemplo"
+  | "planos"
+  | "pesquisa"
+  | (string & {});
 
-export function SiteHeader({ active }: { active?: Section }) {
-  const { common } = useI18n();
-  const links: Array<{ href: string; label: string; id: Section }> = [
-    { href: "/#produto", label: common.product, id: "produto" },
-    { href: "/exemplo", label: common.example, id: "exemplo" },
-    { href: "/planos", label: common.plans, id: "planos" },
-  ];
+export type SiteHeaderProps = {
+  active?: SiteHeaderActive;
+  [key: string]: unknown;
+};
 
+export function SiteHeader({ active }: SiteHeaderProps) {
   return (
-    <header className="site-header">
-      <a href="/" className="site-brand" aria-label={common.home}>
-        <span className="site-mark" aria-hidden="true"><strong>F</strong><i>/</i><b /></span>
-        <span>forjavia<i>.</i></span>
-      </a>
-      <nav aria-label={common.navigation}>
-        {links.map((link) => (
-          <a key={link.id} href={link.href} aria-current={active === link.id ? "page" : undefined}>{link.label}</a>
-        ))}
-      </nav>
-      <div className="header-actions">
-        <LanguageSwitcher />
-        <a href="/entrar" className={active === "entrar" ? "header-login active" : "header-login"}>{common.login}</a>
-        <a href="/builder" className="site-header-cta">
-          <span>{common.builder}</span><ArrowRight size={16} />
+    <header className="border-b">
+      <nav aria-label="Navegação principal" className="mx-auto flex max-w-4xl flex-wrap items-center gap-4 px-4 py-3">
+        <Link href="/" className="font-semibold">
+          Forjavia
+        </Link>
+        <Link href="/" aria-current={active === "home" ? "page" : undefined}>
+          Home
+        </Link>
+        <Link href="/roadmap" aria-current={active === "roadmap" ? "page" : undefined}>
+          Roadmap
+        </Link>
+        <a href={`${REPO_URL}#readme`} rel="noopener noreferrer">
+          Docs
         </a>
-      </div>
+        <a href={REPO_URL} rel="noopener noreferrer">
+          GitHub
+        </a>
+      </nav>
     </header>
   );
 }
+
+export default SiteHeader;

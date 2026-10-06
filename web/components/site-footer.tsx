@@ -1,25 +1,25 @@
-"use client";
-/* Native navigation avoids the vinext RSC prefetch failure on Cloudflare. */
-/* eslint-disable @next/next/no-html-link-for-pages */
+import Link from "next/link";
 
-import { useI18n } from "@/components/i18n";
+const REPO_URL = "https://github.com/cleberto/forjavia-orchestrator";
 
 export function SiteFooter() {
-  const { common } = useI18n();
   return (
-    <footer className="site-footer">
-      <span>FORJAVIA / FORJA + VIA</span>
-      <nav aria-label={common.footerNav}>
-        <a href="/">{common.product}</a>
-        <a href="/exemplo">{common.example}</a>
-        <a href="/roadmap">{common.evolution}</a>
-        <a href="/planos">{common.plans}</a>
-        <a href="/builder">{common.builderActive}</a>
-        <a href="/pesquisa">{common.survey}</a>
-        <a href="https://github.com/cleberto/Forjavia/issues/new" target="_blank" rel="noreferrer">Feedback</a>
-        <a href="https://github.com/cleberto/Forjavia" target="_blank" rel="noreferrer">GitHub</a>
-      </nav>
-      <span>{common.footerLine}</span>
+    <footer className="mt-16 border-t">
+      <div className="mx-auto flex max-w-4xl flex-wrap items-center gap-4 px-4 py-6 text-sm">
+        <span>Forjavia — projeto open source (MIT). Prévia informativa.</span>
+        <nav aria-label="Rodapé" className="flex flex-wrap gap-4">
+          <Link href="/">Home</Link>
+          <Link href="/roadmap">Roadmap</Link>
+          <a href={`${REPO_URL}#readme`} rel="noopener noreferrer">
+            Docs
+          </a>
+          <a href={REPO_URL} rel="noopener noreferrer">
+            GitHub
+          </a>
+        </nav>
+      </div>
     </footer>
   );
 }
+
+export default SiteFooter;
