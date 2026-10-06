@@ -145,7 +145,7 @@ for (const token of ['AUTO_CONTINUE_WHILE_AUTHORIZED', 'USER_INTENT_CAN_DRIVE_MU
 // Identity terms are assembled from fragments so this checker does not self-match in public tree audits.
 const ID_CLIENT = ['Cli', 'ent'].join('');
 const ID_UNITY = ['Un', 'ity'].join('');
-const ID_TRELLO = ['Tre', 'llo'].join('');
+const ID_BOARD_TERM = ['Tre', 'llo'].join('');
 const NEG = /(?<![\p{L}\p{N}])(?:(?:sem|n[aã]o|nunca|nenhum|nenhuma|not|never|without|formerly|anteriormente|exceto)(?![\p{L}\p{N}])|removid|removed|retired|aposentad|superseded|substitu[ií]d|deprecated|descontinuad|obsolet|legad|legacy|hist[oó]ric|fora\s+do\s+escopo|out\s+of\s+scope)/iu;
 const FORBIDDEN = [
   ['Free/Pro/Enterprise plan', /\b(?:free|pro|enterprise)\s+(?:plans?|planos?|tiers?)\b|\bplanos?\s+(?:free|pro|enterprise)\b|\bfree\s*\/\s*pro\s*\/\s*enterprise\b/i],
@@ -156,7 +156,7 @@ const FORBIDDEN = [
   ['Cloudflare deployment as core', /cloudflare[^.\n]{0,60}(?:core|n[uú]cleo|deploy|implanta|hosting|hospedagem)|(?:deploy(?:ment)?|implanta[cç][aã]o|hosting|hospedagem)[^.\n]{0,60}cloudflare/i],
   ['MU Online identity', /\bMU\s*Online\b[^.\n]{0,60}(?:core|identi|n[uú]cleo|produto|product|servidor|server)|(?:forjavia|core|identi|n[uú]cleo|produto|product)[^.\n]{0,60}\bMU\s*Online\b/i],
   [`${ID_CLIENT} ${ID_UNITY} identity`, new RegExp(`\\b${ID_CLIENT}\\s+${ID_UNITY}\\b|\\b${ID_UNITY}\\s+${ID_CLIENT.toLowerCase()}\\b[^.\\n]{0,60}(?:core|identi|n[uú]cleo|produto|product)`, 'i')],
-  [`${ID_TRELLO} operational architecture`, new RegExp(`\\b${ID_TRELLO.toLowerCase()}\\b[^.\\n]{0,60}(?:board|quadro|sync|sincroni|operacion|operational|source\\s+of\\s+truth|integra)|(?:integra[cç][aã]o|integration|sync|sincroniza|board|quadro|operacion|operational)[^.\\n]{0,60}\\b${ID_TRELLO.toLowerCase()}\\b`, 'i')],
+  [`${ID_BOARD_TERM} operational architecture`, new RegExp(`\\b${ID_BOARD_TERM.toLowerCase()}\\b[^.\\n]{0,60}(?:board|quadro|sync|sincroni|operacion|operational|source\\s+of\\s+truth|integra)|(?:integra[cç][aã]o|integration|sync|sincroniza|board|quadro|operacion|operational)[^.\\n]{0,60}\\b${ID_BOARD_TERM.toLowerCase()}\\b`, 'i')],
 ];
 
 for (const file of activeDocs) {
