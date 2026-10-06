@@ -1,79 +1,35 @@
-# Roadmap do Forjavia
+# Roadmap
 
-O roadmap é guiado por gates verificáveis. Datas entram depois do piloto; neste estágio, dependências e critérios de saída são mais confiáveis do que prazos artificiais.
+> Norma vigente: [arquitetura v1.3](architecture-v1.3.md). O roadmap é guiado por gates verificáveis, sem datas.
 
-## Princípios transversais
+## Fases (arquitetura v1.3)
 
-- integração MCP-first e acesso explícito;
-- leitura antes de escrita;
-- evidência antes de conclusão;
-- menor privilégio e permissões explícitas;
-- aprovação humana para decisões sensíveis;
-- um único motor de métodos para Web, GitHub App, MCP e eventual conector local;
-- nenhuma promessa de ganho sem baseline e medição.
+0. Cutover
+1. Baseline independente
+2. Existing Project Bootstrap / Legacy Reconciliation
+3. Spec Kit
+4. TLC
+5. Understand Anything
+6. Integrated Engineering Graph
+7. Forjavia UI — evoluir a UI/dashboard do Understand Anything
+8. Benchmarks LIGHT/STANDARD/CRITICAL
+9. Simplify / delete duplication
+10. Public release
 
-## Fase 00 — Validar o método
+Princípio de ordem: a convergência da integração precede a adoção de nova tecnologia de grande porte.
 
-Consolidar o construtor Free, o formato aberto e as jornadas para projeto novo e existente.
+## Gate de cutover
 
-**Gate:** usuários conseguem gerar, entender e aplicar um método sem intervenção manual do fundador.
+O cutover local→GitHub/cloud exige provar: resultado machine-readable, adjudicação pelo Orchestrator, `CONTINUE / RETRY / OWNER_REQUIRED / STOP`, bloqueio de execução não autorizada, persistência de estado entre contextos e uma wave real governada end-to-end. O bridge está comprovado localmente; o transporte GitHub/cloud ainda não.
 
-## Fase 01 — Conta e contrato versionado
+## Capacidades transversais
 
-Implementar identidade, persistência e isolamento. Definir o contrato do método antes dos canais de integração.
+- **Context Compiler (permanente):** sempre presente como boundary de contexto, com profundidade proporcional ao risco. LIGHT: contexto mínimo, alvo direto, blocking rules e sensor exigido. STANDARD: spec/plan escopado, vizinhança do grafo, rules/lessons relevantes e verificação independente. CRITICAL: recon, domínio, arquitetura, blast radius, autoridade/permissões e sensores/revisão mais fortes.
+- **Lesson Distiller (condicional):** só entra após falha ou finding relevante, retrabalho material, blocker recorrente ou escaped defect. PASS limpo não cria lesson. Fluxo: falha/evidência → causa raiz → lesson fundamentada → regra candidata → Sensor/validator/teste/enforcement quando automatizável.
+- **Parallel Scheduler (condicional):** subordinado ao Orchestrator; só paraleliza quando o grafo de dependência/conflito, o isolamento de escrita e os budgets permitem. Escrita concorrente não isolada na mesma árvore é proibida por padrão.
 
-- login social e por e-mail;
-- projetos e métodos por usuário;
-- exportação e exclusão de dados;
-- schema versionado compartilhado pelo portal e MCP.
+Nenhuma dessas capacidades está implementada hoje, e nenhuma pode criar segunda fonte da verdade ou orquestrador concorrente.
 
-**Gate:** usuários permanecem isolados e o mesmo perfil produz o mesmo método em qualquer canal.
+## Métricas
 
-## Fase 02 — GitHub App e diagnóstico com evidência
-
-Conectar somente repositórios escolhidos. Identificar stack, estrutura, riscos, gaps e dúvidas. Cada afirmação relevante deve apontar para a origem observada ou registrar explicitamente que permanece incerta.
-
-**Gate:** nenhum problema é apresentado como fato sem evidência.
-
-## Fase 03 — MCP remoto
-
-Expor contexto, regras, dúvidas, planos e registro de evidências para dois clientes MCP. O agente recebe somente o contexto necessário para o trabalho atual.
-
-**Gate:** trocar de agente não muda o contrato nem perde decisões; tokens são revogáveis e limitados ao projeto.
-
-## Fase 04 — Serviço Pro
-
-Adicionar conta, projetos sincronizados, histórico, catálogo, limites, telemetria consentida e cobrança. BYOK continua disponível; execução hospedada usa créditos separados.
-
-**Gate:** retenção, custos e unidade de valor justificam a assinatura.
-
-## Fase 05 — Verificação e modo de ensino
-
-Relacionar commit, pull request, teste, gate e evidência. Correções aprovadas geram regras candidatas e avaliações.
-
-**Gate:** evidência obsoleta é recusada e nenhuma regra entra no método sem avaliação.
-
-## Fase 06 — Equipes
-
-Adicionar biblioteca privada, papéis, aprovações, políticas, integrações com tickets e CI e métricas agregadas.
-
-**Gate:** o Pro demonstra uso recorrente individual antes de iniciar colaboração paga.
-
-## Maior decisão arquitetural
-
-O contrato versionado do método é a fundação. Web, GitHub App e MCP são canais. Se regras de risco, gates e artefatos forem implementados separadamente em cada canal, o produto ficará caro de manter e produzirá resultados divergentes.
-
-## Segurança
-
-Segurança não é uma fase isolada. Login e acesso ao GitHub são consentimentos separados. Cada ferramenta MCP declara o que lê, escreve e registra. O diagnóstico começa somente leitura. Segredos ficam excluídos por padrão.
-
-## Métricas de avanço
-
-- tempo até o primeiro método aplicável;
-- taxa de exportação ou instalação;
-- retorno do usuário na segunda semana;
-- tarefas concluídas com evidência;
-- dúvidas descobertas antes da implementação;
-- retrabalho e reversões por tarefa;
-- custo de execução Pro;
-- conversão Free para Pro e cancelamento mensal.
+Além de evidência por tarefa e retrabalho: context compile hit-rate / retrieved bytes, lesson promotions / sensor promotions e parallel efficiency / merge-repair cost. O objetivo é comprovar redução de releitura e retrabalho sem custo fixo de tokens. Nenhum ganho é anunciado sem baseline e medição.

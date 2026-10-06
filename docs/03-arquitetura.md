@@ -1,37 +1,48 @@
 # Arquitetura
-## Componentes
-| Componente | Papel | Estado |
+
+> Norma vigente: [arquitetura v1.3](architecture-v1.3.md). Este documento é um resumo e não a substitui.
+
+## Três planos
+
+| Plano | Quem | Responsabilidade |
 |---|---|---|
-| Site responsivo | Entrevista, duas jornadas, perguntas, preferências e exportação | Prévia implementada |
-| Compilador de método | Gerar etapas/gates a partir das respostas | Implementado, regras iniciais |
-| Schemas | Validar perfil importado e limites de entrada | Implementado para perfil v1 |
-| Catálogo de métodos | Versões, compatibilidade, atualizações e personalização | Planejado |
-| GitHub App | Ler somente repositórios autorizados e acompanhar revisões | Planejado, primeira conexão |
-| MCP remoto | Expor contexto, método, dúvidas, planos e evidências a clientes compatíveis | Planejado, primeira integração |
-| Conector local | Cobrir mudanças não enviadas, testes locais e projetos fora do GitHub | Opcional, após validar demanda |
-| Serviço SaaS | Identidade, isolamento, assinatura, projetos e auditoria | Planejado |
-| Pesquisa de validação | Formulário público, persistência D1 e painel privado de resultados | Implementado |
+| Control Plane | Forjavia | state, governance, authority, permissions, risk routing, Context Compiler, Legacy Reconciliation, Parallel Scheduler, evidence/provenance e integração |
+| Provider Plane | Spec Kit, TLC, Understand Anything | capacidades especializadas; providers não governam o sistema |
+| Execution Plane | Claude Code, Codex, agentes futuros, scripts, testes, CI e demais executores/Sensors | execução e sensores substituíveis |
 
-## Separação
-O core não depende de motor de jogo, domínio específico, framework web específico ou fornecedor de IA.
-Site, GitHub App, MCP e eventual conector local usam os mesmos contratos. Regras por domínio são módulos opcionais.
-A aplicação atual usa React/TypeScript com o starter Sites; núcleo determinístico fica em web/lib/method.ts.
+A integração com Spec Kit, TLC e Understand Anything está planejada. Nenhum provider está integrado hoje.
 
-## Fonte da verdade
-Perfil versionado + método versionado + decisões + evidências ligadas à revisão.
-Pareceres perdem validade quando seus inputs mudam.
-Interfaces exibem fatos, hipóteses e pendências separadamente.
-Comandos são argv e nunca shell derivado de texto do usuário.
+## Fluxo
 
-## Pesquisa de validação
-As respostas são armazenadas no Cloudflare D1 sem endereço IP. Contato é opcional e depende de consentimento explícito. A leitura exige o segredo `SURVEY_ADMIN_TOKEN`; a rota do painel recebe `noindex` e não aparece na navegação pública. O banco aplica limites e listas permitidas novamente no servidor, independentemente da validação do navegador.
+Owner → Forjavia Front Door/UI → Structured State → Risk Router → Spec Kit/TLC/Understand Anything → Executor/Sensors/Verifier → Evidence/Converge → State Builder → Forjavia UI/Docs.
 
-Os textos públicos da pesquisa ficam em um catálogo PT/EN/DE separado da lógica do formulário. Opções traduzidas mantêm valores canônicos no banco para que a análise não seja fragmentada por idioma. Um novo idioma acrescenta um pacote de textos ao catálogo e ao registro global de idiomas; não exige duplicar componentes, validação, API ou schema. Tradução automática em cada acesso não é usada, pois alteraria termos de produto e adicionaria latência e dependência externa.
+## Structured State e source of truth
 
-## Estados futuros da execução
-DRAFT → QUESTIONS_PENDING → READY_FOR_REVIEW → PLAN_ACCEPTED → EXECUTING → VERIFYING → AWAITING_ACCEPTANCE.
-BLOCKED preserva causa e ponto de retomada. Aprovação prévia vale dentro do escopo autorizado; não solicitar a mesma decisão a cada passo.
+- O Structured State versionado no repositório é a única fonte da verdade.
+- `CLAUDE.md`, `AGENTS.md`, prompts e payloads de SDK são projeções compiladas, nunca fonte da verdade.
+- Fontes legadas (issue trackers, boards, documentos, planilhas) podem ser lidas durante o bootstrap, mas não viram espelho permanente nem segunda área de trabalho.
+- Evidência fica ligada à revisão; pareceres perdem validade quando seus inputs mudam.
 
-## Baixa manualidade
-Uma conexão por projeto, reconhecimento seletivo, perguntas agrupadas por bloqueio, retomada sem repetir respostas, atualizações com diff e rollback.
-Coleta local minimiza dados enviados ao serviço. Execução respeita permissões da ferramenta hospedeira.
+## Context Compiler
+
+Capability do Control Plane, sempre presente como boundary de contexto, com profundidade proporcional ao risco (LIGHT, STANDARD, CRITICAL). Produz o menor contexto suficiente para cada papel; não carrega providers inteiros, histórico completo ou lessons não relacionadas.
+
+## Integrated Engineering Graph
+
+Requirement ↔ Task ↔ Code ↔ Dependency ↔ Test ↔ Evidence ↔ Commit.
+
+O Work Graph do Forjavia e o Code Graph do Understand Anything serão ligados por adapters versionados. Inferência semântica é advisory; somente fatos estruturais verificáveis podem ser candidatos a evidência.
+
+## Forjavia UI (futura)
+
+A Forjavia UI será a única interface humana principal, construída a partir do dashboard do Understand Anything e evoluída com identidade própria e módulos operacionais (Overview, Work, Specs & Requirements, Tasks/Waves, Tests & Sensors, Evidence & Provenance, Decisions/Questions, Releases, Architecture, Governance). Não haverá segunda UI operacional.
+
+Regra: UI = projeção; Structured State do repositório = verdade. A UI ainda não existe.
+
+## Governed Agent Relay
+
+Fluxo entre agentes: Orchestrator → governed runner → Executor → resultado estruturado/evidência → Orchestrator, com adjudicação `CONTINUE / RETRY / OWNER_REQUIRED / STOP`. Hoje está comprovado apenas localmente.
+
+## Non-negotiables
+
+implementation != proof; proof != authority to close; author != verifier; risk dominates diff size; no source-of-truth duplication; no second operational UI; no permanent legacy tracker dependency; context is compiled, not accumulated; parallelism is dependency-driven; the Owner is not a transport layer between agents.
