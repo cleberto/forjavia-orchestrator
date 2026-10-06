@@ -1,67 +1,44 @@
-# Forjavia — conversa com possíveis colaboradores
+# Comunidade e colaboração
 
-## A oportunidade
+> O nome deste arquivo (`12-convite-colaboradores.md`) é histórico. O conteúdo substitui o antigo convite comercial e trata apenas de colaboração voluntária e aberta pelo GitHub.
 
-Agentes de IA já escrevem código com velocidade, mas projetos continuam perdendo contexto, acumulando decisões implícitas e declarando entregas prontas sem evidência suficiente. O Forjavia quer ser a camada de confiança entre a intenção humana, o repositório e o agente escolhido pelo usuário.
+## Uso livre, colaboração voluntária
 
-## O produto proposto
+O Forjavia é público e o código original está sob a licença [MIT](../LICENSE). Você pode usar, estudar, adaptar e redistribuir o projeto nos termos da licença, sem obrigação de contribuir, avisar ou manter qualquer vínculo.
 
-O usuário cria uma conta, conecta apenas o repositório que autorizar e recebe um diagnóstico somente leitura. O sistema separa fatos, riscos, dúvidas e prioridades. Pelo MCP remoto, o agente que ele já usa consulta esse contexto, segue o método adequado ao risco e devolve decisões e evidências. O portal mantém a visão humana do processo.
+Contribuir é voluntário. Participar não cria compromisso de continuidade, remuneração ou papel formal no projeto.
 
-O Forjavia não precisa criar outro agente generalista. Seu valor está no contrato compartilhado entre pessoas e agentes: contexto versionado, rigor proporcional ao risco, decisões explícitas e evidência ligada à revisão analisada.
+## Formas de participar
 
-## O que já existe
+- **Issues:** problemas no baseline, inconsistências na documentação e propostas pontuais.
+- **Discussions** (quando habilitadas no repositório): dúvidas, ideias e conversas de arquitetura antes de uma proposta grande.
+- **Pull requests:** correções e melhorias pequenas, focadas e verificáveis.
 
-- identidade e posicionamento do produto;
-- site público responsivo em português, inglês e alemão;
-- demonstração das jornadas de projeto novo e existente;
-- compilador inicial de método com regras determinísticas;
-- exportação em Markdown e JSON;
-- visão pública, planos propostos e relatório fictício que mostra o resultado esperado;
-- documentação de arquitetura, segurança, produto e publicação.
+Antes de abrir qualquer contribuição, leia o [CONTRIBUTING.md](../CONTRIBUTING.md) e siga os [primeiros passos](getting-started.md).
 
-Contas reais, GitHub App, diagnóstico de código, MCP, cobrança e execução automatizada ainda são etapas planejadas. A prévia não afirma que esses recursos já funcionam.
+## O que esperar
 
-## Primeiro produto utilizável
+- A revisão é feita pelos mantenedores no tempo disponível, sem prazo garantido.
+- Mudanças são avaliadas contra a [arquitetura v1.3](architecture-v1.3.md) e contra as verificações do baseline.
+- Uma proposta pode receber pedido de ajuste, ter o escopo reduzido ou ser recusada.
+- Grande parte das capacidades descritas está PLANNED. Trabalho nessas áreas começa por discussão, não por um PR grande.
 
-1. Conta e isolamento entre usuários.
-2. Conexão de um repositório por GitHub App.
-3. Inventário técnico e diagnóstico somente leitura.
-4. Perguntas que resolvem incertezas relevantes.
-5. Relatório com fatos rastreáveis, riscos e próximos passos.
-6. MCP remoto com poucas ferramentas bem definidas.
-7. Nova verificação por commit ou pull request.
+## O que pedimos a quem contribui
 
-O Free precisa provar valor em um projeto. O Pro vende continuidade: mais projetos, histórico, comparação entre revisões, verificações recorrentes e limites maiores de MCP.
+- Rodar as verificações do baseline e informar no PR os comandos e o resultado.
+- Manter mudanças pequenas, com objetivo claro.
+- Não declarar como implementado ou verificado algo que não foi verificado (`implementation != proof`).
+- Respeitar licenças de terceiros e manter [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md) e o inventário de terceiros consistentes.
 
-## Perfis que ajudariam agora
+## Segurança
 
-- produto e pesquisa: entrevistas, ativação, retenção e clareza da proposta;
-- backend e segurança: identidade, isolamento, contratos, filas e auditoria;
-- GitHub e MCP: permissões mínimas, ingestão incremental e compatibilidade de clientes;
-- análise e avaliações: regras, qualidade do diagnóstico, falsos positivos e evidência;
-- frontend e experiência: onboarding, relatórios e integração simples para não especialistas.
+- Não publique em issues, discussions ou PRs detalhes de vulnerabilidades, credenciais, tokens, dados pessoais ou conteúdo de repositórios privados.
+- Para relatar uma vulnerabilidade, siga o [CONTRIBUTING.md](../CONTRIBUTING.md). Se não houver canal privado indicado, abra uma issue mínima pedindo um contato privado, sem detalhes técnicos.
+- Princípios de conexão e segurança: [08-conexao-e-seguranca.md](08-conexao-e-seguranca.md).
 
-Uma pessoa pode cobrir mais de uma frente. O objetivo inicial é validar o núcleo com poucos pilotos, não formar uma equipe grande.
+## Governança de arquitetura
 
-## Experimento de validação
-
-Convidar de 10 a 15 pessoas com projetos ativos. Cada participante conecta um repositório de teste, recebe o diagnóstico e tenta usar o contexto em seu agente habitual. As métricas principais são:
-
-- tempo até o primeiro resultado útil;
-- percentual que conclui a conexão e entende o relatório;
-- riscos relevantes confirmados e falsos positivos;
-- retorno para analisar uma segunda mudança;
-- intenção real de pagar ou participar de um piloto Pro.
-
-O próximo investimento só avança quando os pilotos demonstram uso recorrente. Uma boa primeira meta é obter cinco retornos na segunda semana e três compromissos de pagamento ou cartas de intenção.
-
-## Perguntas para a conversa
-
-1. Em qual projeto você usaria isso amanhã?
-2. Qual decisão ou falha recente o Forjavia deveria ter antecipado?
-3. Você permitiria leitura de um repositório selecionado? Com quais limites?
-4. Qual agente ou editor deve ser suportado primeiro?
-5. O que precisaria aparecer no relatório para você confiar nele?
-6. Por qual resultado recorrente você pagaria?
-7. Qual parte você teria interesse em ajudar a construir ou validar?
+- A [arquitetura v1.3](architecture-v1.3.md) é a norma. Os demais documentos são projeções ou histórico.
+- Mudanças em non-negotiables, ownership ou nos três planos exigem discussão prévia e decisão registrada em [06-decisoes.md](06-decisoes.md). Decisões substituídas ficam em [superseded-decisions.md](superseded-decisions.md).
+- Propostas que transformem um provider em authority, criem uma segunda source of truth ou uma segunda UI operacional entram em conflito com a norma.
+- Decisões de autoridade cabem ao Owner do projeto.
